@@ -9,20 +9,22 @@ import java.io.File;
 
 import static com.codeborne.selenide.Condition.text;
 import static com.codeborne.selenide.Selectors.byText;
-import static com.codeborne.selenide.Selenide.$;
-import static com.codeborne.selenide.Selenide.open;
+import static com.codeborne.selenide.Selenide.*;
 
 public class FormTests {
     @BeforeAll
     static void configure() {
         Configuration.baseUrl = "https://demoqa.com";
-        //  Configuration.holdBrowserOpen = true;
-        Configuration.browserSize = "400x1028";
+        Configuration.holdBrowserOpen = true;
+        //Configuration.browserSize = "1920x1080";
     }
 
     @Test
     void assertTest() {
         open("/automation-practice-form");
+        $(".practice-form-wrapper").shouldHave(text("Student Registration Form"));
+        executeJavaScript("$('footer').remove()");
+        executeJavaScript("$('#fixedban').remove()");
         $("#firstName").setValue("Ivan");
         $("#lastName").setValue("Petrov");
         $("#userEmail").setValue("test@test.com");
@@ -38,26 +40,19 @@ public class FormTests {
         $("#subjectsInput").setValue("Math").pressEnter();
         $("#subjectsInput").setValue("Economics").pressEnter();
         $("#subjectsInput").setValue("Arts").pressEnter();
-        $("[for='hobbies-checkbox-1']").click();
-        $("[for='hobbies-checkbox-3']").click();
-        $("#uploadPicture").uploadFile(new File("src/test/resources/images/test.png"));
+        $("#hobbiesWrapper").$(byText("Sports")).click();
+        $("#hobbiesWrapper").$(byText("Music")).click();
+        $("#uploadPicture").uploadFromClasspath("images/test.png");
         $("#currentAddress").setValue("Some address: city, street, house 0");
-        $("#state").click();
+        $("#state").scrollTo().click();
+        //$("#state").click();
         $(byText("Haryana")).click();
         $("#city").click();
-        $(byText("Panipat")).click();
+        $(byText("Karnal")).click();
         $("#submit").click();
 
         $(".modal-header").$("#example-modal-sizes-title-lg").shouldHave(text("Thanks for submitting the form"));
-        $(".modal-body").shouldHave(text("Ivan Petrov"));
-        $(".modal-body").shouldHave(text("test@test.com"));
-        $(".modal-body").shouldHave(text("Male"));
-        $(".modal-body").shouldHave(text("9998887744"));
-        $(".modal-body").shouldHave(text("01 January,2000"));
-        $(".modal-body").shouldHave(text("Maths, Economics, Arts"));
-        $(".modal-body").shouldHave(text("Sports, Music"));
-        $(".modal-body").shouldHave(text("test.png"));
-        $(".modal-body").shouldHave(text("Some address: city, street, house 0"));
-        $(".modal-body").shouldHave(text("Haryana Panipat"));
+        $(".modal-body").shouldHave(text("Ivan Petrov"), text("test@test.com"), text("Male"), text("9998887744"), text("01 January,2000"), text("Maths, Economics, Arts"), text("Sports, Music"), text("test.png"), text("Some address: city, street, house 0"), text("Haryana Karnal"));
+
     }
 }
