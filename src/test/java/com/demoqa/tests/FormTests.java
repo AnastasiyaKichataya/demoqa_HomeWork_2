@@ -28,26 +28,28 @@ public class FormTests {
         .setEmail("test@test.com")
         .setGender("Male")
         .setNumber("9998887744")
-        .setBirthDate("01","January", "2000");
+        .setBirthDate("01","January", "2000")
+        .chooseSubjects("Maths")
+        .chooseSubjects("Economics")
+        .chooseSubjects("Arts")
+        .chooseHobbies("Sports")
+        .chooseHobbies("Music")
+        .downloadFile("images/test.png")
+        .inputAddress("Some address: city, street, house 0")
+        .chooseCountry("Haryana")
+        .chooseCity("Karnal")
+        .clickButton();
 
-        $("#subjectsInput").click();
-        $("#subjectsInput").setValue("Math").pressEnter();
-        $("#subjectsInput").setValue("Economics").pressEnter();
-        $("#subjectsInput").setValue("Arts").pressEnter();
-        $("#hobbiesWrapper").$(byText("Sports")).click();
-        $("#hobbiesWrapper").$(byText("Music")).click();
-        $("#uploadPicture").uploadFromClasspath("images/test.png");
-        $("#currentAddress").setValue("Some address: city, street, house 0");
-        $("#state").scrollTo().click();
-        //$("#state").click();
-        $(byText("Haryana")).click();
-        $("#city").click();
-        $(byText("Karnal")).click();
-        $("#submit").click();
-
-        registrationFormPage.checkResultsTableVisible();
-        $(".modal-body").shouldHave(text("Ivan Petrov"), text("test@test.com"), text("Male"), text("9998887744"), text("01 January,2000"), text("Maths, Economics, Arts"), text("Sports, Music"), text("test.png"), text("Some address: city, street, house 0"), text("Haryana Karnal"));
-
-
+        registrationFormPage.checkResultsTableVisible()
+                        .checkResult("Student Name", "Ivan Petrov")
+                        .checkResult("Student Email", "test@test.com")
+                        .checkResult("Gender", "Male")
+                        .checkResult("Mobile", "9998887744")
+                        .checkResult("Date of Birth", "01 January,2000")
+                        .checkResult("Subjects", "Maths, Economics, Arts")
+                        .checkResult("Hobbies", "Sports, Music")
+                        .checkResult("Picture", "test.png")
+                        .checkResult("Address", "Some address: city, street, house 0")
+                        .checkResult("State and City", "Haryana Karnal");
     }
 }
