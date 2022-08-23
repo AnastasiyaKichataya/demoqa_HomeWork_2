@@ -20,7 +20,6 @@ public class RegistrationFormPage {
             userEmail = $("#userEmail");
 
 
-
     private final static String TITLE_TEXT = "Student Registration Form";
 
 
@@ -57,69 +56,69 @@ public class RegistrationFormPage {
         return this;
     }
 
-    public RegistrationFormPage setNumber(String phoneNumber){
+    public RegistrationFormPage setNumber(String phoneNumber) {
         $("#userNumber").setValue(phoneNumber);
 
         return this;
     }
 
-    public RegistrationFormPage setBirthDate(String day, String month, String year){
+    public RegistrationFormPage setBirthDate(String day, String month, String year) {
         $("#dateOfBirthInput").click();
         //$(".react-datepicker__year-select").click();
-        calendarComponent.setDate(day,month, year);
+        calendarComponent.setDate(day, month, year);
 
         return this;
     }
 
-    public RegistrationFormPage chooseSubjects(String value){
+    public RegistrationFormPage chooseSubjects(String value) {
         $("#subjectsInput").setValue(value).pressEnter();
 
         return this;
     }
 
-    public RegistrationFormPage chooseHobbies(String value){
+    public RegistrationFormPage chooseHobbies(String value) {
         $("#hobbiesWrapper").$(byText(value)).click();
 
         return this;
     }
 
-    public RegistrationFormPage downloadFile(String url){
+    public RegistrationFormPage uploadImage(String url) {
         $("#uploadPicture").uploadFromClasspath(url);
 
         return this;
     }
 
-    public RegistrationFormPage inputAddress(String address){
+    public RegistrationFormPage inputAddress(String address) {
         $("#currentAddress").setValue(address);
         $("#state").scrollTo().click();
 
         return this;
     }
 
-    public RegistrationFormPage chooseCountry(String country){
+    public RegistrationFormPage chooseCountry(String country) {
         $(byText(country)).click();
 
         return this;
     }
 
-    public RegistrationFormPage chooseCity(String city){
+    public RegistrationFormPage chooseCity(String city) {
         $("#city").click();
         $(byText(city)).click();
 
         return this;
     }
 
-    public void  clickButton(){
+    public void clickButton() {
         $("#submit").click();
     }
 
-    public RegistrationFormPage checkResultsTableVisible(){
+    public RegistrationFormPage checkResultsTableVisible() {
         resultsTableComponent.checkVisible();
 
         return this;
     }
 
-    public RegistrationFormPage checkResult(String key, String value){
+    public RegistrationFormPage checkResult(String key, String value) {
         resultsTableComponent.checkResult(key, value);
 
         return this;
