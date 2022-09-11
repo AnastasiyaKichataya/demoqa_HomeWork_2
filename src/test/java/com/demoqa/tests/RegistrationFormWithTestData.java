@@ -1,7 +1,9 @@
 package com.demoqa.tests;
 
+import com.codeborne.selenide.logevents.SelenideLogger;
 import com.demoqa.pages.RegistrationFormPage;
 import com.github.javafaker.Faker;
+import io.qameta.allure.selenide.AllureSelenide;
 import org.junit.jupiter.api.Test;
 
 import java.util.Locale;
@@ -32,6 +34,7 @@ public class RegistrationFormWithTestData extends TestBase {
 
     @Test
     void assertTest() {
+
         registrationFormPage
                 .openPage()
                 .setFirstName(firstName)
