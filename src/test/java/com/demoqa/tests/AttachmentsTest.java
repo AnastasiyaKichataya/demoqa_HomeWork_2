@@ -11,6 +11,10 @@ import org.junit.jupiter.api.Test;
 import org.openqa.selenium.OutputType;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.TakesScreenshot;
+import org.openqa.selenium.logging.*;
+
+import java.util.Date;
+import java.util.logging.Level;
 
 import static com.codeborne.selenide.Selenide.webdriver;
 import static io.qameta.allure.Allure.attachment;
@@ -22,6 +26,10 @@ public class AttachmentsTest {
     @BeforeAll
     static void configure() {
         Configuration.baseUrl = "https://demoqa.com";
+        LoggingPreferences logPrefs = new LoggingPreferences();
+        logPrefs.enable(LogType.BROWSER, Level.ALL);
+        logPrefs.enable(LogType.PERFORMANCE, Level.ALL);
+        Configuration.browserCapabilities.setCapability("goog:loggingPrefs", logPrefs);
         //Configuration.holdBrowserOpen = true;
         //Configuration.browserSize = "1920x1080";
     }
@@ -29,6 +37,30 @@ public class AttachmentsTest {
     @Attachment(value = "Screenshot", type = "image/png", fileExtension = "png")
     public byte[] takeScreenshot() {
         return ((TakesScreenshot)WebDriverRunner.getWebDriver()).getScreenshotAs(OutputType.BYTES);
+    }
+
+    String buildLogs(LogEntries entries) {
+       String str = "";
+        for (LogEntry entry : entries) {
+            str += "" +
+                    new Date(entry.getTimestamp()) + " "
+                    + entry.getLevel() + " "
+                    + entry.getMessage() + "\n"
+            ;
+        }
+
+        return str;
+    }
+
+    @Attachment(value = "Console log")
+    public String takeConsoleLog() {
+        LogEntries logs = WebDriverRunner
+                .getWebDriver()
+                .manage()
+                .logs()
+                .get(LogType.BROWSER);
+
+        return buildLogs(logs);
     }
 
     @Test
@@ -95,5 +127,6 @@ public class AttachmentsTest {
                 .checkResult("State and City", "Haryana Karnal");
 
         takeScreenshot();
+        takeConsoleLog();
     }
 }
